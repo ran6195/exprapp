@@ -20,7 +20,7 @@
   --red: #d9534f;
   --orange: #F47C3C;
   --yellow: #ffc107;
-  --green: #93C54B;
+  --green:#93C54B;
   --teal: #20c997;
   --cyan: #29ABE0;
   --white: #fff;
@@ -162,7 +162,8 @@ sup {
 }
 
 a {
-  color: #93C54B;
+  /*color: #93C54B;*/
+  color: #187ca5;
   text-decoration: none;
   background-color: transparent;
 }

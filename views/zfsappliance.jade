@@ -3,9 +3,43 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  
+  - k = 0;
+  - d = 4
+  - for ( var i = 0; i < rows.length / d; i++ )
+    .row.mb-3
+      - for ( var j = 0; j < d; j++ )
+
+        .col
+         
+          .card
+            .card-body
+              h5.card-title.text-center
+                - box = rows[ k ].nome.split( '-' )
+                a(href="")
+                  strong= box[ 0 ].trim()
+              br
+              p Seriale: 
+                strong #{box[ 1 ]}
+                br
+                | Location:
+                strong #{box[2]}
+                br 
+                br
+                | Link 1: 
+                a(href="#{rows[ k ].addr1}" target="_blank") #{rows[ k ].addr1} 
+                br
+                | Link 2: 
+                a(href="#{rows[ k ].addr2}" target="_blank") #{rows[ k ].addr2} 
+              - k++
+
 
 block menu
   .list-group
     a.list-group-item.list-group-item-action.list-group-item-secondary.active(href="#") Appliance
     a.list-group-item.list-group-item-action.list-group-item-secondary(href="#") Shares
     a.list-group-item.list-group-item-action.list-group-item-secondary(href="#") Ambiti
+
+
+
+

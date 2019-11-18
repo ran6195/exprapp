@@ -6,6 +6,9 @@ const sqlite3 = require( 'sqlite3' ).verbose();
 
 
 
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Storage Tools' , menuItem : 'home'});
@@ -23,38 +26,28 @@ router.get( '/reperibili' , (req, res, next) => {
 
 router.get( '/zfsappliance' , (req, res, next) => {
 
+  //var dati  = []
 
   let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY ,  err => {
     if( err ) {
       console.log( 'Errore: ' + err )
+    } else {
+      console.log( 'Database aperto' )
     }
   });
 
-  let dati = [ 'pippo' ];
 
-  db.serialize(() => {
-    db.each( 'SELECT * FROM zfsappliance' , ( err , row ) => {
-      if( err ) {
-        console.log( err )
-      }
-      dati.push( row )
-    }) 
-    
-  })
-
-  db.close( err => {
-    if( err ) {
-      console.log( err )
-    }
+  db.all( 'SELECT * FROM zfsappliance' , [] , ( err , rows ) => {
+    res.render( 'zfsappliance' , {
+      title : 'ZFS Appliance' , 
+      menuItem : 'zfsappliance' ,
+      rows
+    });
   })
 
 
 
-  res.render( 'zfsappliance' , {
-    title : 'ZFS Appliance' , 
-    menuItem : 'zfsappliance' ,
-    dati
-  });
+  
 });
 
 
