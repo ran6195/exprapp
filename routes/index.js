@@ -37,7 +37,7 @@ router.get( '/zfsappliance' , (req, res, next) => {
   });
 
 
-  db.all( 'SELECT * FROM zfsappliance' , [] , ( err , rows ) => {
+  db.all( 'SELECT * FROM zfsappliance ORDER BY dc' , [] , ( err , rows ) => {
     res.render( 'zfsappliance' , {
       title : 'ZFS Appliance' , 
       menuItem : 'zfsappliance' ,

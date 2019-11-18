@@ -8,6 +8,7 @@ block content
   - d = 4
   - for ( var i = 0; i < rows.length / d; i++ )
     .row.mb-3
+      .col
       - for ( var j = 0; j < d; j++ )
 
         .col
@@ -32,7 +33,7 @@ block content
                 | Link 2: 
                 a(href="#{rows[ k ].addr2}" target="_blank") #{rows[ k ].addr2} 
               - k++
-
+      .col
 
 block menu
   .list-group
