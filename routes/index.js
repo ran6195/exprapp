@@ -1,12 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const axios = require( 'axios' ).default;
 const sqlite3 = require( 'sqlite3' ).verbose(); 
-
-
-
-
-
-
+var dati = {};
 
 
 /* GET home page. */
@@ -26,8 +22,6 @@ router.get( '/reperibili' , (req, res, next) => {
 
 router.get( '/zfsappliance' , (req, res, next) => {
 
-  //var dati  = []
-
   let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY ,  err => {
     if( err ) {
       console.log( 'Errore: ' + err )
@@ -44,11 +38,19 @@ router.get( '/zfsappliance' , (req, res, next) => {
       rows
     });
   })
-
-
-
   
 });
 
+pippo = new Promise( ( resole , reject ) => {
+  axios.get('/api/zfs').then( data => resolve( data )).catch( err => reject( err ))
+})
+
+
+
+router.get('/test',(req, res, next) => {
+
+    pippo.then(data => res.json( data ) ).catch( err => res.json( err ) )
+
+})
 
 module.exports = router;
