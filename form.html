@@ -1,0 +1,83 @@
+<div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <h1 class="page-header"><i class="fa fa-search fa-fw"> </i> Ricerca Shares ZFS</h1>
+
+                    </div>
+
+                    <!-- /.col-lg-12 -->
+                    
+                </div>
+
+                <!-- /.row -->
+				
+				<div class="row">
+                    <div class="col-lg-6">
+                        Il database contiene dati aggiornati al <em>24/01/2018</em>
+                    </div>
+                    <div class="col-md-6">
+                        Scegli il campo e il datacenter su cui fare la ricerca
+                    </div>
+                </div>
+				
+				<div class="row">
+                    <!-- <form id="search-form" role="form"> -->
+                        <div class="form-group col-md-6">
+                            <label></label>
+                            <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input type="text" id="host" class="form-control ui-autocomplete-input" autofocus="" value="" autocomplete="off">
+                            <p class="help-block">Comincia a digitare per cercare un host, un progetto oppure un box</p>
+                        </div>
+                    <!-- </form> -->
+                    
+                    <div class="col-md-6">
+                        <br>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="campo btn btn-default active">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked="" data-camporicerca="share"> Share
+                            </label>
+                            <label class="campo btn btn-default">
+                                <input type="radio" name="options" id="option2" autocomplete="off" data-camporicerca="project"> Project
+                            </label>
+                            <label class="campo btn btn-default">
+                                <input type="radio" name="options" id="option3" autocomplete="off" data-camporicerca="box"> Box
+                            </label>
+                        </div>
+						
+						<div class="btn-group" data-toggle="buttons">
+                            <label class="datacenter btn btn-default active">
+                                <input type="radio" name="datacenter" id="datacenter1" autocomplete="off" checked="" data-camporicerca="all"> All
+                            </label>
+                            <label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter2" autocomplete="off" data-camporicerca="bari"> Bari
+                            </label>
+                            <label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter3" autocomplete="off" data-camporicerca="bologna"> Bologna
+                            </label>
+							<label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter4" autocomplete="off" data-camporicerca="cesano"> Cesano
+                            </label>
+							<label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter5" autocomplete="off" data-camporicerca="napoli"> Napoli
+                            </label>
+							<label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter6" autocomplete="off" data-camporicerca="oriolo"> Oriolo
+                            </label>
+							<label class="datacenter btn btn-default">
+                                <input type="radio" name="datacenter" id="datacenter7" autocomplete="off" data-camporicerca="padova"> Padova
+                            </label>
+                        </div>
+                        <p class="help-block">Ricerca per: campo <span class="label label-danger" id="campo-ricerca" style="text-transform: capitalize">Share</span>, datacenter <span class="label label-danger" id="dc-ricerca" style="text-transform: capitalize">All</span></p>
+                    </div>
+                    
+                    
+                </div>
+				
+			
+				<div class="row" id="out">
+                    
+                </div>
+
+            </div>

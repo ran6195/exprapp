@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios = require( 'axios' ).default;
 const sqlite3 = require( 'sqlite3' ).verbose(); 
+const https = require( 'https' )
 var dati = {};
 
 
@@ -41,16 +42,34 @@ router.get( '/zfsappliance' , (req, res, next) => {
   
 });
 
-pippo = new Promise( ( resole , reject ) => {
-  axios.get('/api/zfs').then( data => resolve( data )).catch( err => reject( err ))
+router.get( '/shares' , ( err , res , next ) => {
+  res.render( 'shares' )
+});
+
+
+router.get( '/test' , ( req , res , next ) => {
+  var dati;
+
+  const instance = axios.create({
+    httpsAgent: new https.Agent({  
+      rejectUnauthorized: false
+    })
+  });
+
+
+
+
+  instance.get( 'https://10.25.73.40:215/api/storage/v1/projects' , {
+    headers : {
+      "X-Auth-User" : 'root' ,
+      "X-Auth-Key" : "9Lb?53P0~8>3"
+    }
+  })
+    .then( response => res.json( response.data ) )
+    .catch( err => res.send( err ) )
+
 })
 
 
-
-router.get('/test',(req, res, next) => {
-
-    pippo.then(data => res.json( data ) ).catch( err => res.json( err ) )
-
-})
 
 module.exports = router;
