@@ -16,8 +16,9 @@ block content
             .card-body
               h5.card-title.text-center
                 - box = rows[ k ].nome.split( '-' )
-                a(href="")
+                a.zfsa(href="" id="#{rows[ k ].id}")
                   strong= box[ 0 ].trim()
+                
               br
               p Seriale: 
                 strong #{box[ 1 ]}
