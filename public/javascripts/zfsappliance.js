@@ -26,7 +26,10 @@
 
         voce.addClass( 'active' )
 
-        switch( voce.text() ) {
+
+        console.log(voce.text().trim());
+        
+        switch( voce.text().trim() ) {
             case 'Appliance':
 
                 document.location.href = '/zfsappliance'

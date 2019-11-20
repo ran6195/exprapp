@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 
 router.get( '/reperibili' , (req, res, next) => {
   res.render( 'reperibili' , {
-    title : 'Reperibili' , menuItem : 'reperibili'
+    title : 'Reperibili' , menuItem : 'reperibili' , scripts : [ 'reperibili' ]
   });
 });
 
@@ -36,14 +36,19 @@ router.get( '/zfsappliance' , (req, res, next) => {
     res.render( 'zfsappliance' , {
       title : 'ZFS Appliance' , 
       menuItem : 'zfsappliance' ,
-      rows
+      rows ,
+      scripts : [
+        'zfsappliance'
+      ]
     });
   })
   
 });
 
 router.get( '/shares' , ( err , res , next ) => {
-  res.render( 'shares' )
+  res.render( 'shares' , {
+    scripts : []
+  });
 });
 
 

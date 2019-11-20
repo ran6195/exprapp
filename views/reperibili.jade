@@ -1,11 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1
+    i.fa.fa-users.fa-fw
+    | #{" " + title}
+  hr
 
 block menu
   .list-group
-    a.list-group-item.list-group-item-action.list-group-item-secondary.active(href="#") Reperibili
-    a.list-group-item.list-group-item-action.list-group-item-secondary(href="#") Crea repribile
+    a.elgi.list-group-item.list-group-item-action.list-group-item-secondary.active(href="/dummy") 
+      | Reperibili
+      i.fas.fa-users.float-right
+    a.elgi.list-group-item.list-group-item-action.list-group-item-secondary(href="/dummy")
+      | Crea reperibile
+      i.fas.fa-user-plus.float-right
  
