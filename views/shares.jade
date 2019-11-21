@@ -18,3 +18,49 @@ hr
         span(role="status")
         input.form-control.ui-autocomplete-input(type="text" id="host" autofocus value="" autocomplete="off")
 
+    .col-md-6
+        br
+        .btn-group.btn-group-toggle(data-toggle='buttons')
+            label.btn.btn-primary.active
+                input#option1(type='radio', name='options', autocomplete='off', checked='')
+                |  Share
+            label.btn.btn-primary
+                input#option2(type='radio', name='options', autocomplete='off')
+                |  Projetc
+            label.btn.btn-primary
+                input#option3(type='radio', name='options', autocomplete='off')
+                |  Box
+        &nbsp;&nbsp;&nbsp;
+        .btn-group.btn-group-toggle(data-toggle='buttons')
+            label.btn.btn-primary.active
+                input#option1(type='radio', name='datcenter', autocomplete='off', checked='')
+                |  All
+            label.btn.btn-primary
+                input#option2(type='radio', name='datcenter', autocomplete='off')
+                |  Bari
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Bologna
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Cesano
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Bologna
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Napoli
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Oriolo
+            label.btn.btn-primary
+                input#option3(type='radio', name='datcenter', autocomplete='off')
+                |  Padova 
+        p.help-block
+            | Ricerca per: campo 
+            span#campo-ricerca.badge.badge-danger(style='text-transform: capitalize') Share
+            | , datacenter 
+            span#dc-ricerca.badge.badge-danger(style='text-transform: capitalize') All
+            
+
+
