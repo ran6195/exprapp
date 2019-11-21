@@ -38,6 +38,7 @@ router.get( '/zfsappliance' , (req, res, next) => {
       menuItem : 'zfsappliance' ,
       rows ,
       scripts : [
+        'jquery-ui.min' ,
         'zfsappliance'
       ]
     });
@@ -46,9 +47,26 @@ router.get( '/zfsappliance' , (req, res, next) => {
 });
 
 router.get( '/shares' , ( err , res , next ) => {
-  res.render( 'shares' , {
-    scripts : []
-  });
+
+  let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY , err => {
+    if( err ) {
+      console.log( err )
+    } else {
+      console.log('database aperto');
+    }
+
+    db.all( 'SELECT DISTINCT dc FROM zfsappliance ORDER BY dc' , [] , ( err , datacenter ) =>{
+      if( err ) {
+        console.log( err ) 
+      } else {
+        res.render( 'shares' , {
+          datacenter
+        })
+      }
+    });
+
+  } )
+
 });
 
 

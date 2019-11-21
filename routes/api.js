@@ -30,5 +30,16 @@ router.get( '/zfs' , ( req , res , next )=> {
 })
 
 
+router.get( '/ricerca_zfs_shares' , ( req , res , next ) => {
+
+    console.log( req.query )
+
+
+    res.send(['pippo' , 'pluto' , 'Minnie' , 'paperina' , 'qui' , 'quo' , 'qua' ]);
+
+
+});
+
+
 module.exports = router;
 

@@ -1,3 +1,5 @@
+- let D = { 'BO1' : 'Bologna' , 'MI3' : 'Cesano' , 'NA1' : 'Napoli' , 'PD1' : 'Padova' , 'RM4' : 'Oriolo' }
+
 
 .row
     .col-lg-12
@@ -21,41 +23,26 @@ hr
     .col-md-6
         br
         .btn-group.btn-group-toggle(data-toggle='buttons')
-            label.btn.btn-primary.active
-                input#option1(type='radio', name='options', autocomplete='off', checked='')
+            label.btn.btn-primary.campo.active
+                input#option1(type='radio', name='campo', autocomplete='off', checked='')
                 |  Share
-            label.btn.btn-primary
-                input#option2(type='radio', name='options', autocomplete='off')
+            label.btn.btn-primary.campo
+                input#option2(type='radio', name='campo', autocomplete='off')
                 |  Projetc
-            label.btn.btn-primary
-                input#option3(type='radio', name='options', autocomplete='off')
+            label.btn.btn-primary.campo
+                input#option3(type='radio', name='campo', autocomplete='off')
                 |  Box
-        &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
         .btn-group.btn-group-toggle(data-toggle='buttons')
-            label.btn.btn-primary.active
+            label.btn.btn-primary.datacenter.active
                 input#option1(type='radio', name='datcenter', autocomplete='off', checked='')
                 |  All
-            label.btn.btn-primary
-                input#option2(type='radio', name='datcenter', autocomplete='off')
-                |  Bari
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Bologna
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Cesano
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Bologna
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Napoli
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Oriolo
-            label.btn.btn-primary
-                input#option3(type='radio', name='datcenter', autocomplete='off')
-                |  Padova 
+            - for( let i = 0; i < datacenter.length; i++ )
+                    label.btn.btn-primary.datacenter
+                        input#option2(type='radio', name='datcenter', autocomplete='off')
+                        |  #{D [ datacenter[ i ].dc ] }
+            
+ 
         p.help-block
             | Ricerca per: campo 
             span#campo-ricerca.badge.badge-danger(style='text-transform: capitalize') Share
