@@ -20,17 +20,10 @@ var chiudiDB = ( db ) => db.close();
 
 router.get( '/zfs' , ( req , res , next )=> {
 
-    let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY , err => {
-        if( err ) {
-            console.log( err );
-        } else {
-            console.log( 'Database aperto' )
-        }
-    });
+    let db = apriDB()
 
-    let sql = 'SELECT * FROM zfsappliance ORDER BY dc';
-    let option = [];
-
+    let sql = 'SELECT * FROM zfsappliance WHERE id = ?';
+    let option = [ req.query.id ];
 
     db.all( sql , option , (err , rows )=>{
         res.json( rows )
@@ -54,7 +47,6 @@ router.post( '/shares' , ( req , res , next ) => {
                     ZFS_APPLIANCE AS Appliance ,
                     SHARE AS Share ,
                     POOL AS Pool ,
-                    PATH AS Path ,
                     PROJECT AS Project ,
                     NFS_EXPORT AS Export ,
                     DATACENTER AS DC
@@ -62,11 +54,10 @@ router.post( '/shares' , ( req , res , next ) => {
                     shares 
                   WHERE ${campo} = '${ricerca}'`;
     else    
-        var sql = `SSELECT
+        var sql = `SELECT
                     ZFS_APPLIANCE AS Appliance ,
                     SHARE AS Share ,
                     POOL AS Pool ,
-                    PATH AS Path ,
                     PROJECT AS Project ,
                     NFS_EXPORT AS Export ,
                     DATACENTER AS DC
@@ -96,12 +87,20 @@ router.get( '/ricerca_zfs_shares' , ( req , res , next ) => {
     let datacenter = req.query.datacenter.toUpperCase();
     let term = req.query.term;
     let sql = '';
-    if( datacenter === 'ALL' ) {
+/*     if( datacenter === 'ALL' ) {
         sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE '%${term}%'`;
     } else {
         sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE '%${term}%' AND DATACENTER = '${datacenter}'`;
-    }
+    } */
     let option = [];
+    if( datacenter === 'ALL' ) {
+        sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE ?`
+    } else {
+        sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE ? AND DATACENTER = '${datacenter}'`
+    }
+
+    option.push( '%' + term + '%');
+    
     db.all( sql , option , ( err , rows ) => {
 
         var out = [];
@@ -115,15 +114,6 @@ router.get( '/ricerca_zfs_shares' , ( req , res , next ) => {
         res.send( out );
         chiudiDB( db );
     });
-
-
-
-    console.log( sql );
-
-    //costruisco la query per l'autocomplete
-
-    //res.send(['pippo' , 'pluto' , 'Minnie' , 'paperina' , 'qui' , 'quo' , 'qua' ]);
-
 
 });
 

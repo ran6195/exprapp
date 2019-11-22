@@ -7,9 +7,18 @@
     $( '.zfsa' ).on( 'click' , e => {
         e.preventDefault()
         let id = e.target.parentNode.id;
-        
-        axios.get('/api/zfs').then( data => console.log( data.data ) ).catch( err => console.log( err ) )
-       
+        $( '.loader' ).css({ display : 'block' })
+        axios.get('/api/zfs' , { params : { id : id } } )
+            .then( response => { 
+                axios.post( '/zfsappliancedetails' , { appliance : response.data } )
+                    .then( response => {
+                        $( '.loader' ).css({ display : 'none' })
+                        console.log( response.data )
+                        $( '#contenitore' ).html( response.data )
+                    })
+                    .catch( err => console.log( err ) )
+            })
+            .catch( err => console.log( err ) )
     })
 
 

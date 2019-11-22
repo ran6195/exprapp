@@ -70,7 +70,7 @@ router.get( '/shares' , ( err , res , next ) => {
 });
 
 
-router.post( '/test' , ( req , res , next ) => {
+router.get( '/test' , ( req , res , next ) => {
   var dati;
 
   const instance = axios.create({
@@ -79,13 +79,10 @@ router.post( '/test' , ( req , res , next ) => {
     })
   });
 
-
-
-
-  instance.get( 'https://10.25.73.40:215/api/storage/v1/projects' , {
+  instance.get( 'https://10.22.43.24:215/api/hardware/v1/cluster/resources/zfs/Pool-01' , {
     headers : {
       "X-Auth-User" : 'root' ,
-      "X-Auth-Key" : "9Lb?53P0~8>3"
+      "X-Auth-Key" : "mQ4CP!oynX"
     }
   })
     .then( response => res.json( response.data ) )
@@ -96,5 +93,33 @@ router.post( '/test' , ( req , res , next ) => {
 router.post( '/table' , ( req , res , next) => {
   res.render( 'tabella' , { rows : req.body.data.rows } );
 });
+
+
+router.post( '/zfsappliancedetails' , ( req , res , next ) => {
+
+  var appliance = req.body.appliance[ 0 ];
+  console.log( appliance )
+  const instance = axios.create({
+    httpsAgent: new https.Agent({  
+      rejectUnauthorized: false
+    })
+  });
+
+  instance.get( appliance.addr1 + '/api/hardware/v1/cluster' , {
+    headers : {
+      "X-Auth-User" : 'root' ,
+      "X-Auth-Key" : appliance.pass
+    }
+  })
+    .then( response => {
+      res.render( 'zfsdetails' , {
+        appliance ,
+        cluster : response.data.cluster  
+      })
+    })
+    .catch( err => res.send( err ) )
+
+});
+
 
 module.exports = router;

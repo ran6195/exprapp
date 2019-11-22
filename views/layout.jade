@@ -25,6 +25,7 @@ html
             a.nav-link(href='/zfsappliance') ZFS Appliance
           
   .contenitore
+    .loader#loader
     .container-fluid
       .row
         .col-2
@@ -38,6 +39,7 @@ html
   script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous")
   script(src="https://unpkg.com/axios/dist/axios.min.js")
   script(src="https://kit.fontawesome.com/05731a9940.js" crossorigin="anonymous")
+  script(src="javascripts/common.js")
   - if( scripts !== undefined && scripts.length ) 
     - for( var i = 0; i < scripts.length; i++ )
       script(src="javascripts/#{scripts[ i ]}.js")   
