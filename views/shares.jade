@@ -18,7 +18,7 @@ hr
     .form-froup.col-md-6
         label(for="")
         span(role="status")
-        input.form-control.ui-autocomplete-input(type="text" id="host" autofocus value="" autocomplete="off")
+        input.form-control.ui-autocomplete-input(type="text" id="host" value="" autocomplete="off")
 
     .col-md-6
         br
@@ -28,7 +28,7 @@ hr
                 |  Share
             label.btn.btn-primary.campo
                 input#option2(type='radio', name='campo', autocomplete='off')
-                |  Projetc
+                |  Project
             label.btn.btn-primary.campo
                 input#option3(type='radio', name='campo', autocomplete='off')
                 |  Box
@@ -41,7 +41,7 @@ hr
                     label.btn.btn-primary.datacenter
                         input#option2(type='radio', name='datcenter', autocomplete='off')
                         |  #{D [ datacenter[ i ].dc ] }
-            
+        
  
         p.help-block
             | Ricerca per: campo 
@@ -50,4 +50,6 @@ hr
             span#dc-ricerca.badge.badge-danger(style='text-transform: capitalize') All
             
 
+.row
+    .col#out
 

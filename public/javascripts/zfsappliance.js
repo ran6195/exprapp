@@ -41,8 +41,8 @@
 
                     $( '#contenitore' ).html( '' )
                     axios.get( '/shares' )
-                    .then( data => {
-                        $( '#contenitore' ).html( data.data ) 
+                    .then( response => {
+                        $( '#contenitore' ).html( response.data ) 
                         gestioneRicercaShare()
                     })
                     .catch( err => console.log( err ) )
@@ -54,28 +54,66 @@
                 break;
         }
 
-
-        //console.log( e.target.parentNode.childNodes )
-
     });
 
-    // Gestione dei filtri
+    // Gestione dei filtri e della ricerca
 
-    //gestioneRicercaShare = () => {
+    let gestioneRicercaShare = () => {
+        
+        var getData = ( ui ) => {
+            console.log( ui );
+            axios.post( '/api/shares' , {
+                campo : campo ,
+                ricerca : ui.item.value ,
+                datacenter : datacenter
+            })
+                .then( response => {
+                    var rows = response.data 
+                    console.log( rows );
+                    axios.post( '/table' , { data : {
+                        rows 
+                    } })
+                        .then( response => {
+                            $( '#out' ).html( response.data )
+                        })
+                        .catch( err => console.log( err ) )
 
-        var campo       = $( '#campo-ricerca' ).text();
-        var datacenter  = $( '#dc-ricerca' ).text();
+                })
+                .catch( err => console.log( err ))
+        }
+
+        var riavviaAutocomplete = () => {
+
+            try {
+                $( '#host' ).autocomplete( 'destroy' );
+            } catch ( err ) {
+                console.log( 'err' );
+            }
+
+            $( '#host' ).autocomplete({
+                source : str_ricerca ,
+                minLength : 2 ,
+                select : function ( evt , ui ) {
+                    getData( ui );
+                }
+            });
+
+        }
+        var campo       = $( '#campo-ricerca' ).text().trim().toLowerCase();
+        var datacenter  = $( '#dc-ricerca' ).text().trim().toLowerCase();
         var str_ricerca = `/api/ricerca_zfs_shares?campo=${campo}&datacenter=${datacenter}`;
 
+
+        riavviaAutocomplete();
 
         $( '.campo' ).css({ cursor : 'pointer'}).on( 'click' , ( e ) => {
 
             let voce = $( e.target );
-
+            $( '#host' ).focus().val( '' )
             $( '#campo-ricerca' ).text( voce.text() );
-            campo = voce.text();
+            campo = voce.text().trim().toLowerCase();
             str_ricerca = `/api/ricerca_zfs_shares?campo=${campo}&datacenter=${datacenter}`;
-            console.log( str_ricerca )
+            riavviaAutocomplete();
 
         });
 
@@ -84,17 +122,14 @@
             
             let voce = $( e.target );
             
+            $( '#host' ).focus().val( '' )
             $( '#dc-ricerca' ).text( voce.text() );
-            datacenter = voce.text();
+            datacenter = voce.text().trim().toLowerCase();
             str_ricerca = `/api/ricerca_zfs_shares?campo=${campo}&datacenter=${datacenter}`;
-            console.log( str_ricerca );
+            riavviaAutocomplete();
         });
-
-        $( '#host' ).autocomplete({
-            source : str_ricerca ,
-            minLength : 1
-        });
-    //}
+        
+    }
 
 
 })()

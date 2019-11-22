@@ -70,7 +70,7 @@ router.get( '/shares' , ( err , res , next ) => {
 });
 
 
-router.get( '/test' , ( req , res , next ) => {
+router.post( '/test' , ( req , res , next ) => {
   var dati;
 
   const instance = axios.create({
@@ -93,6 +93,8 @@ router.get( '/test' , ( req , res , next ) => {
 
 })
 
-
+router.post( '/table' , ( req , res , next) => {
+  res.render( 'tabella' , { rows : req.body.data.rows } );
+});
 
 module.exports = router;
