@@ -10,54 +10,54 @@
     .col
         ul.nav.nav-pills
             li.nav-item
-                a.nav-link.active(href="/dummy") Cluster
+                a.zfsd.nav-link.active(href="/dummy") Cluster
             li.nav-item
-                a.nav-link(href="/dummy") Pools
+                a.zfsd.nav-link(href="/dummy") Pools
             li.nav-item
-                a.nav-link(href="/dummy") Projects
+                a.zfsd.nav-link(href="/dummy") Projects
             li.nav-item
-                a.nav-link(href="/dummy") Shares
+                a.zfsd.nav-link(href="/dummy") Shares
 
 
 
 
 
-
-.row 
-    .col
-        h3.text-center Cluster
-        table.table.table-dark.table-striped.table-sm
-            tbody
-                tr
-                    td Stato
-                    td #{cluster.state}
-                tr
-                    td Descrizione
-                    td #{cluster.description}
-                 tr
-                    td Peer ASN
-                    td #{cluster.peer_asn}
-                tr
-                    td Peer Hostname
-                    td #{cluster.peer_hostname}
-    .col
-        h3.text-center Risorse
-        - for (var i = 0; i < cluster.resources.length; i++ )
+#dettagli
+    .row 
+        .col
+            h3.text-center Cluster
             table.table.table-dark.table-striped.table-sm
                 tbody
                     tr
-                        td Owner
-                        td #{cluster.resources[ i ].owner }
+                        td Stato
+                        td #{cluster.state}
                     tr
-                        td Tipo
-                        td #{cluster.resources[ i ].type }
+                        td Descrizione
+                        td #{cluster.description}
                     tr
-                        td User Label
-                        td #{cluster.resources[ i ].user_label } 
+                        td Peer ASN
+                        td #{cluster.peer_asn}
                     tr
-                        td Dettagli
-                        td #{cluster.resources[ i ].details }
-                    tr
-                        td HREF
-                        td #{cluster.resources[ i ].href}
+                        td Peer Hostname
+                        td #{cluster.peer_hostname}
+        .col
+            h3.text-center Risorse
+            - for (var i = 0; i < cluster.resources.length; i++ )
+                table.table.table-dark.table-striped.table-sm
+                    tbody
+                        tr
+                            td Owner
+                            td #{cluster.resources[ i ].owner }
+                        tr
+                            td Tipo
+                            td #{cluster.resources[ i ].type }
+                        tr
+                            td User Label
+                            td #{cluster.resources[ i ].user_label } 
+                        tr
+                            td Dettagli
+                            td #{cluster.resources[ i ].details }
+                        tr
+                            td HREF
+                            td #{cluster.resources[ i ].href}
           

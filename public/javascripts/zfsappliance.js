@@ -9,12 +9,14 @@
         let id = e.target.parentNode.id;
         $( '.loader' ).css({ display : 'block' })
         axios.get('/api/zfs' , { params : { id : id } } )
-            .then( response => { 
+            .then( response => {
+                window.sessionStorage.applianceData = JSON.stringify( response.data ); 
                 axios.post( '/zfsappliancedetails' , { appliance : response.data } )
                     .then( response => {
-                        $( '.loader' ).css({ display : 'none' })
-                        console.log( response.data )
                         $( '#contenitore' ).html( response.data )
+                        $( '.loader' ).css({ display : 'none' })
+                        zfsDetailsMenuHandler();
+
                     })
                     .catch( err => console.log( err ) )
             })
@@ -140,5 +142,69 @@
         
     }
 
+
+
+    // Gestione della navigazione nella pagina di dettaglio degli ZFS
+    var displayLoader = () => {
+        $( '#loader' ).css({ display : 'block' })
+    }
+
+    var hideLoader = () => {
+        $( '#loader' ).css({ display : 'none' })
+    }
+
+    var zfsDetailsMenuHandler = () => {
+
+        $( '.zfsd' ).on( 'click' , ( e ) => {
+            e.preventDefault();
+
+
+           $( '.zfsd' ).removeClass( 'active' )
+   
+
+            $( e.target ).addClass( 'active' )
+
+            let getPoolsDetails = () => {
+                //recupero le info sull'appliance da window local storage
+
+                let applianceDetails = JSON.parse( window.sessionStorage.applianceData );
+                
+                displayLoader()
+                $( '#dettagli' ).html( '' )
+                axios.post( '/zfspoolsdetails' , { applianceDetails } )
+                    .then( response => {
+                        window.sessionStorage.pools = JSON.stringify( response.data )
+                        axios.post( '/poolsdetails' , { pools : response.data } )
+                            .then( response => {
+                                $( '#dettagli' ).html( response.data );
+                                hideLoader()
+                            })
+                            .catch( err => console.log( err ))
+                    })
+                    .catch( err => console.log( err ) )
+            }
+
+            let getProjects = () => {
+                const projects = sessionStorage.pools
+
+                console.log( projects )
+            }
+
+
+            
+
+
+            switch( $( e.target ).text().trim().toUpperCase() ) {
+                case 'POOLS':
+                    getPoolsDetails()    
+                break;
+
+                case 'PROJECTS':
+                    getProjects()
+                break;
+            }
+
+        });
+    };
 
 })()

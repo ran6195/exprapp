@@ -1,0 +1,42 @@
+- scala = 40 // TiB
+- for (var i = 0; i < pools.length; i++ )
+    //.row
+    // .col  #{JSON.stringify( pools[ i ].usage )}
+
+    .row.text-center.mb-2.mt-3
+        .col
+            h1
+                span.badge.badge-primary #{pools[i].name} 
+    .row.mb-2    
+        .col
+            table.table.table-striped.table-dark.table-bordered.table-sm
+                thead   
+                    tr
+                        th Owner
+                        th Peer
+                        th Protezione
+                        th Capacity
+                tbody
+                    tr
+                        td #{pools[i].owner}
+                        td #{pools[i].peer}
+                        td #{pools[i].profile}
+                        td
+                            table.table.table-dark.table-sm   
+                                
+                                tr
+                                    td Spazio Utilizzato
+                                    td #{ ( pools[i].usage.used / Math.pow(2, scala) ).toFixed( 2 ) } TiB
+                                tr 
+                                    td Usato Occupato
+                                    td #{ ( pools[i].usage.usage_data / Math.pow(2, 40) ).toFixed( 2 ) } TiB
+                                tr
+                                    td Spazio Riservato
+                                    td #{ ( pools[i].usage.usage_child_reservation / Math.pow(2, 40) ).toFixed( 2 ) } TiB
+                                tr
+                                    td Spazio Disponibile
+                                    td #{ ( pools[i].usage.available / Math.pow(2,40) ).toFixed( 2 ) } TiB
+                                
+                                //tr
+                                //    td Spazio Libero
+                                //    td #{ ( pools[i].usage.free / Math.pow(2,40) ).toFixed( 2 ) } TiB
