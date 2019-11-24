@@ -87,7 +87,6 @@ router.get( '/test' , ( req , res , next ) => {
   })
     .then( response => res.json( response.data ) )
     .catch( err => res.send( err ) )
-
 })
 
 router.post( '/table' , ( req , res , next) => {
@@ -175,11 +174,106 @@ router.post( '/zfspoolsdetails' , ( req , res , next ) => {
 
 });
 
+router.post( '/zfsprojects' , ( req , res , next ) =>{
 
+  const appliance = req.body.appliance[ 0 ];
+
+  const instance = axios.create({
+    httpsAgent: new https.Agent({  
+      rejectUnauthorized: false
+    })
+  });
+
+  const headers = {
+      "X-Auth-User" : 'root' ,
+      "X-Auth-Key" : appliance.pass
+  }
+
+  if ( appliance.addr2 !== '' ) {
+    let interrogaTestaUno = () => {
+      return instance.get( appliance.addr1 + '/api/storage/v1/projects' , { headers } );
+    }
+  
+
+    let interrogaTestaDue = () => {
+      return instance.get( appliance.addr2 + '/api/storage/v1/projects' , { headers } );
+    }
+
+
+    axios.all([ interrogaTestaUno() , interrogaTestaDue()] )
+      .then( axios.spread( ( addr1 , addr2 ) =>{
+        
+        let out = addr1.data;
+        
+        res.json( [ addr1.data , addr2.data ])
+        
+      }))
+      .catch(err => console.log(err))
+
+  } else {
+    instance.get( appliance.addr1 + '/api/storage/v1/projects', { headers })
+      .then(response => res.json( [ response.data ] ))
+      .catch(err => console.log(err))
+  }
+
+});
+
+
+router.post( '/zfsshares' , ( req  , res , next ) =>{
+  
+  const appliance = req.body.appliance[ 0 ]
+
+  const instance = axios.create({
+    httpsAgent: new https.Agent({  
+      rejectUnauthorized: false
+    })
+  });
+
+  const headers = {
+      "X-Auth-User" : 'root' ,
+      "X-Auth-Key" : appliance.pass
+  }
+
+  if ( appliance.addr2 !== '' ) {
+    let interrogaTestaUno = () => {
+      return instance.get( appliance.addr1 + '/api/storage/v1/filesystems' , { headers } );
+    }
+  
+
+    let interrogaTestaDue = () => {
+      return instance.get( appliance.addr2 + '/api/storage/v1/filesystems' , { headers } );
+    }
+
+
+    axios.all([ interrogaTestaUno() , interrogaTestaDue()] )
+      .then( axios.spread( ( addr1 , addr2 ) =>{
+        
+        res.json( [ addr1.data , addr2.data ])
+        
+      }))
+      .catch(err => console.log(err))
+
+  } else {
+    instance.get( appliance.addr1 + '/api/storage/v1/filesystems', { headers })
+      .then(response => res.json( [ response.data ] ))
+      .catch(err => console.log(err))
+  }
+
+});
+
+
+router.post( '/dettagli_shares' , ( req , res , next )=>{
+  res.render( 'dettagli_shares' , { shares : req.body.shares })
+})
+
+router.post( '/dettagli_projects' , (req , res , next ) => {
+  res.render( 'dettagli_projects' , { projects : req.body.projects })
+})
 
 router.post( '/poolsdetails', ( req , res , next ) => {
   res.render( 'dettagli_pools' , { pools : req.body.pools })
 }); 
+
 
 
 module.exports = router;

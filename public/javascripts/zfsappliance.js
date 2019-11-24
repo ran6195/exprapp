@@ -6,6 +6,8 @@
 
     $( '.zfsa' ).on( 'click' , e => {
         e.preventDefault()
+        $( '#contenitore' ).html( '' )
+        displayLoader()
         let id = e.target.parentNode.id;
         $( '.loader' ).css({ display : 'block' })
         axios.get('/api/zfs' , { params : { id : id } } )
@@ -185,14 +187,55 @@
             }
 
             let getProjects = () => {
-                const projects = sessionStorage.pools
+                const pools = JSON.parse( sessionStorage.pools )
+                const appliance = JSON.parse( sessionStorage.applianceData )
 
-                console.log( projects )
+                displayLoader()
+                $( '#dettagli' ).html( '' );
+
+                axios.post( '/zfsprojects' , { pools , appliance } )
+                    .then(response => axios.post( 'dettagli_projects' , { projects : response.data })
+                        .then(response => {
+                            $( '#dettagli' ).html( response.data )
+                            hideLoader()
+                        })
+                        .catch( err => console.log( err )))
+                    .catch( err => console.log( err ))
+    
             }
 
 
-            
+            let getShares = () => {
 
+                const appliance = JSON.parse( sessionStorage.applianceData );
+
+                displayLoader()
+                $( '#dettagli' ).html( '' )
+
+                axios.post( '/zfsshares' , { appliance } )
+                    .then(response => {
+                        axios.post( '/dettagli_shares' , { shares : response.data } )
+                            .then(response => {
+                                $( '#dettagli' ).html( response.data )
+                                hideLoader()
+                                handleShareNFS()
+                            })
+                            .catch( err => console.log( err ))
+                    })
+                    .catch(err => console.log( err ))
+
+            }
+
+
+            let handleShareNFS = () => {
+
+                $(()=>$('[data-toggle="tooltip"]').tooltip())
+
+                $( '.fa-network-wired' ).css({ cursor : 'pointer' }).on( 'click' , e => {
+                    console.log( e.target.parentNode.parentNode
+                        .childNodes )
+                })
+            }
 
             switch( $( e.target ).text().trim().toUpperCase() ) {
                 case 'POOLS':
@@ -202,7 +245,14 @@
                 case 'PROJECTS':
                     getProjects()
                 break;
+
+                case 'SHARES':
+                    getShares()
+                break;
             }
+
+
+
 
         });
     };

@@ -1,1 +1,5 @@
-    
+(()=>{
+
+    $(()=>$('[data-toggle="tooltip"]').tooltip())
+
+})()    

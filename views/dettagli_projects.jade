@@ -1,0 +1,39 @@
+- var scala = Math.pow(2,30) //GiB
+- var unita = 'GiB'
+
+.row
+    .col
+
+        - var k = 0
+
+        br
+        br
+        table#projects.table.table-sm.table-bordered.table-dark.table-hover
+            thead   
+                tr
+                    th #
+                    th Pool
+                    th Nome
+                    th space_available
+                    th space_data
+                    th space_snapshots
+                    th space_total
+                    th space_unused_res
+                    th space_unused_res_shares
+                    //th Share NFS
+            tbody
+            - for (var i = 0; i < projects.length; i++ )
+                - var p = projects[ i ].projects
+                - for(var j = 0; j < p.length; j++ )
+                    - k++
+                    tr
+                        td #{k}  
+                        td #{p[j].pool}    
+                        td #{p[j].name}
+                        td #{ (p[j].space_available / scala).toFixed(2) } #{unita}    
+                        td #{(p[j].space_data / scala ).toFixed(2)} #{unita}
+                        td #{(p[j].space_snapshots / scala ).toFixed(2)} #{unita}    
+                        td #{(p[j].space_total / scala ).toFixed(2) } #{unita}
+                        td #{(p[j].space_unused_res / scala ).toFixed(2)} #{unita}    
+                        td #{(p[j].space_unused_res_shares / scala ).toFixed(2)} #{unita}    
+                        //td(style="width: 50px;") #{p[j].sharenfs.replace( 'sec=sys,' , '')}
