@@ -8,6 +8,7 @@ html
     link(rel="stylesheet", href="/jqueryui/jquery-ui.structure.min.css")
     link(rel="stylesheet", href="/jqueryui/jquery-ui.min.css")
     link(rel="stylesheet", href="/jqueryui/jquery-ui.theme.min.css")
+    link(rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css")
 
   body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
@@ -40,6 +41,7 @@ html
   script(src="https://unpkg.com/axios/dist/axios.min.js")
   script(src="https://kit.fontawesome.com/05731a9940.js" crossorigin="anonymous")
   script(src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js")
+  script(type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js")
   script(src="javascripts/common.js")
   - if( scripts !== undefined && scripts.length ) 
     - for( var i = 0; i < scripts.length; i++ )

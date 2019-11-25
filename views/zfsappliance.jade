@@ -14,17 +14,19 @@ block content
   - for ( var i = 0; i < rows.length / d; i++ )
     .row.mb-3
  
-      - for ( var j = 0; j < d; j++ )
+      - for ( var j = 0; j < d && k < rows.length; j++ )
 
         .col
          
-          .card
-            .card-body
+          .card.bg-light.border-light
+            .card-header
               h5.card-title.text-center
                 - box = rows[ k ].nome.split( '-' )
                 a.zfsa(href="" id="#{rows[ k ].id}")
                   strong= box[ 0 ].trim()
-                
+               
+            .card-body
+               
               br
               p Seriale: 
                 strong #{box[ 1 ]}

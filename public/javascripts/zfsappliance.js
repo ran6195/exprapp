@@ -1,6 +1,14 @@
 
 (()=>{
 
+    var schede = ['cluster','pools','projects','shares']
+
+    var dataTableOptions = {
+        "language": {
+            "url": "/javascripts/italiana.json"
+        }
+    }
+
 
     // Gestione del click su nome del box
 
@@ -179,6 +187,7 @@
                         axios.post( '/poolsdetails' , { pools : response.data } )
                             .then( response => {
                                 $( '#dettagli' ).html( response.data );
+                               
                                 hideLoader()
                             })
                             .catch( err => console.log( err ))
@@ -197,6 +206,7 @@
                     .then(response => axios.post( 'dettagli_projects' , { projects : response.data })
                         .then(response => {
                             $( '#dettagli' ).html( response.data )
+                            $( '#projects' ).DataTable( dataTableOptions )
                             hideLoader()
                         })
                         .catch( err => console.log( err )))
@@ -219,6 +229,7 @@
                                 $( '#dettagli' ).html( response.data )
                                 hideLoader()
                                 handleShareNFS()
+                                $( '#shares' ).DataTable( dataTableOptions )
                             })
                             .catch( err => console.log( err ))
                     })

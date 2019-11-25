@@ -8,7 +8,7 @@
 
         br
         br
-        table#projects.table.table-sm.table-bordered.table-dark.table-hover.table-striped
+        table#shares.table.table-sm.table-bordered.table-dark.table-hover.table-striped
             thead   
                 tr
                     th #
@@ -25,26 +25,28 @@
                     //th space_unused_res_shares
                     //th Share NFS
             tbody
-            - for (var i = 0; i < shares.length; i++ )
-                - var p = shares[ i ].filesystems
-                - for(var j = 0; j < p.length; j++ )
-                    - k++
-                        tr
-                            td #{k}
-                                hidden(value="#{p[j].sharenfs}")  
-                            td #{p[j].pool}    
-                            td #{p[j].name} 
-                                - if( p[j].sharenfs.includes( ',rw,' ) )
-                                    i(data-toggle="tooltip" data-placement="left" title="Clicca per le share NFS. Attenzione questo file system può essere montato dalla rete di mngnt").text-danger.fas.fa-network-wired.float-right.mr-3 
-                                - else 
-                                    i(data-toggle="tooltip" data-placement="left" title="Clicca per le share NFS").text-success.fas.fa-network-wired.float-right.mr-3 
-                            td #{p[j].project}
-                            td #{(p[j].quota / scala ).toFixed() } #{unita}
-                            td #{(p[j].reservation / scala ).toFixed()} #{unita}
-                            td #{(p[j].space_available / scala).toFixed(2) } #{unita}    
-                            td #{(p[j].space_data / scala ).toFixed(2)} #{unita}
-                            //td #{(p[j].space_snapshots / scala ).toFixed(2)} #{unita}    
-                            td #{(p[j].space_total / scala ).toFixed(2) } #{unita}
-                            td #{(p[j].space_unused_res / scala ).toFixed(2)} #{unita}    
-                            //td #{(p[j].space_unused_res_shares / scala ).toFixed(2)} #{unita}    
-                            //td(style="width: 50px;") #{p[j].sharenfs.replace( 'sec=sys,' , '')}
+                - for (var i = 0; i < shares.length; i++ )
+                    - var p = shares[ i ].filesystems
+                    - for(var j = 0; j < p.length; j++ )
+                        - k++
+                            tr
+                                td #{k}
+                                    hidden(value="#{p[j].sharenfs}")  
+                                td #{p[j].pool}    
+                                td #{p[j].name} 
+                                    - if( p[j].sharenfs.includes( ',rw,' ) )
+                                        i(data-toggle="tooltip" data-placement="left" title="Clicca per le share NFS. Attenzione questo file system può essere montato dalla rete di mngnt").text-danger.fas.fa-network-wired.float-right.mr-3 
+                                    - else 
+                                        i(data-toggle="tooltip" data-placement="left" title="Clicca per le share NFS").text-success.fas.fa-network-wired.float-right.mr-3 
+                                td #{p[j].project}
+                                td #{(p[j].quota / scala ).toFixed() } #{unita}
+                                td #{(p[j].reservation / scala ).toFixed()} #{unita}
+                                td #{(p[j].space_available / scala).toFixed(2) } #{unita}    
+                                td #{(p[j].space_data / scala ).toFixed(2)} #{unita}
+                                //td #{(p[j].space_snapshots / scala ).toFixed(2)} #{unita}    
+                                td #{(p[j].space_total / scala ).toFixed(2) } #{unita}
+                                td #{(p[j].space_unused_res / scala ).toFixed(2)} #{unita}    
+                                //td #{(p[j].space_unused_res_shares / scala ).toFixed(2)} #{unita}    
+                                //td(style="width: 50px;") #{p[j].sharenfs.replace( 'sec=sys,' , '')}
+
+.row.mb-5
