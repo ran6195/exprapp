@@ -10,7 +10,7 @@ block content
 
  
   - k = 0;
-  - d = 4
+  - d = 3
   - for ( var i = 0; i < rows.length / d; i++ )
     .row.mb-3
  
@@ -41,6 +41,7 @@ block content
                 | Link 2: 
                 a(href="#{rows[ k ].addr2}" target="_blank") #{rows[ k ].addr2} 
               - k++
+  .row.mb-10
  
 
 block menu
@@ -52,7 +53,5 @@ block menu
       | Shares
       i.fas.fa-search.float-right
     //a.zlgi.list-group-item.list-group-item-action.list-group-item-secondary(href="/dummy") Ambiti
-
-
 
 

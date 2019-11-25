@@ -90,12 +90,15 @@
             })
                 .then( response => {
                     var rows = response.data 
-                    console.log( rows );
-                    axios.post( '/table' , { data : {
-                        rows 
+                    axios.post( '/table' , {
+                        data : {
+                            tableId : 'risultati' ,
+                            rows 
                     } })
                         .then( response => {
                             $( '#out' ).html( response.data )
+                            if( $('#risultati').children( 'tbody' ).children( 'tr' ).length > 15 )
+                                $( '#risultati' ).DataTable( dataTableOptions )
                         })
                         .catch( err => console.log( err ) )
 

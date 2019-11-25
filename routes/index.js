@@ -90,7 +90,7 @@ router.get( '/test' , ( req , res , next ) => {
 })
 
 router.post( '/table' , ( req , res , next) => {
-  res.render( 'tabella' , { rows : req.body.data.rows } );
+  res.render( 'tabella' , { rows : req.body.data.rows , tableId : req.body.data.tableId } );
 });
 
 
