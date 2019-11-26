@@ -199,13 +199,13 @@
             }
 
             let getProjects = () => {
-                const pools = JSON.parse( sessionStorage.pools )
+                //const pools = JSON.parse( sessionStorage.pools )
                 const appliance = JSON.parse( sessionStorage.applianceData )
 
                 displayLoader()
                 $( '#dettagli' ).html( '' );
 
-                axios.post( '/zfsprojects' , { pools , appliance } )
+                axios.post( '/zfsprojects' , { appliance } )
                     .then(response => axios.post( 'dettagli_projects' , { projects : response.data })
                         .then(response => {
                             $( '#dettagli' ).html( response.data )
