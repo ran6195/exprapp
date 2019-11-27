@@ -39,23 +39,23 @@ router.post( '/shares' , ( req , res , next ) => {
     
     let option = [];
     let campo = req.body.campo.toUpperCase();
-    campo === 'BOX' ? campo = 'ZFS_APPLIANCE' : campo;
+    campo === 'BOX' ? campo = 'APPLIANCE' : campo;
     let ricerca = req.body.ricerca;
     let datacenter = req.body.datacenter.toUpperCase();
     if( datacenter === 'ALL' )
         var sql = `SELECT
-                    ZFS_APPLIANCE AS Appliance ,
+                    APPLIANCE AS Appliance ,
                     SHARE AS Share ,
                     POOL AS Pool ,
                     PROJECT AS Project ,
-                    NFS_EXPORT AS Export ,
+                    EXPORT AS Export ,
                     DATACENTER AS DC
                   FROM 
                     shares 
                   WHERE ${campo} = '${ricerca}'`;
     else    
         var sql = `SELECT
-                    ZFS_APPLIANCE AS Appliance ,
+                    APPLIANCE AS Appliance ,
                     SHARE AS Share ,
                     POOL AS Pool ,
                     PROJECT AS Project ,
@@ -83,7 +83,7 @@ router.get( '/ricerca_zfs_shares' , ( req , res , next ) => {
 
     let campo = req.query.campo.toUpperCase();
     if( campo === 'BOX' )
-        campo = 'ZFS_APPLIANCE';
+        campo = 'APPLIANCE';
     let datacenter = req.query.datacenter.toUpperCase();
     let term = req.query.term;
     let sql = '';

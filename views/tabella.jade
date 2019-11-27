@@ -1,14 +1,20 @@
-- console.log( rows )
 
-- keys = Object.keys( rows[ 0 ] )
+- if( rows )
 
-table(id="#{tableId}").table.table-sm.table-bordered.table-dark
-    thead
-        tr
-            - for (var i  = 0; i < keys.length; i++ )
-                th= keys[ i ]
-    tbody
-        - for(var i = 0; i < rows.length; i++ )
-            tr.bg-primary
-                - for (var j = 0; j < keys.length; j++ )
-                    td= rows[ i ][ keys[ j ] ]
+    - console.log( rows )
+
+    - keys = Object.keys( rows[ 0 ] )
+
+    table(id="#{tableId}").table.table-sm.table-bordered.table-dark
+        thead
+            tr
+                - for (var i  = 0; i < keys.length; i++ )
+                    th= keys[ i ]
+        tbody
+            - for(var i = 0; i < rows.length; i++ )
+                tr.bg-primary
+                    - for (var j = 0; j < keys.length; j++ )
+                        td= rows[ i ][ keys[ j ] ]
+- else 
+
+    p Non ci sono risultati
