@@ -4,6 +4,9 @@ var sqlite = require( 'sqlite3' );
 var axios = require( 'axios' );
 var fs = require( 'fs' );
 var https = require( 'https' );
+var _ = require( 'lodash' )
+
+let appliance;
 
 let aspriDB = () => {
     return new  sqlite.Database( './storagetools.db' , [] , err => {
@@ -15,7 +18,10 @@ let aspriDB = () => {
     });
 }
 
-let chiudiDB = ( db ) => db.close();
+let chiudiDB = ( db ) => { 
+    db.close();
+    console.log( 'Database chiuso' ) 
+}
 
 router.get( '/test' , ( req , res , next ) => {
 
@@ -30,15 +36,33 @@ router.get( '/test' , ( req , res , next ) => {
         "X-Auth-Key" : ""
     }; 
 
- 
+    let db = aspriDB();
+
+    db.all( 'SELECT * FROM appliance_hostname' , [] , ( err , rows ) => {
+        if( err ) {
+            console.log( err )
+        } else {
+            appliance = rows;
+        }
+    });
+
+    db.all( 'DELETE FROM shares' , [] , err => console.log( 'errore' ) )
+
+    //db.all( 'INSERT INTO share (ZFS-APPLIANCE, POOL)' )
+
+    let porta = '215'
+    let metodo = '/api/storage/v1/filesystems'
 
     let v = [ 
-        { indirizzo : 'https://10.22.250.82:215/api/storage/v1/filesystems' , pass : 'Vem5t[I0*8dp' } , 
-        { indirizzo : 'https://10.22.250.80:215/api/storage/v1/filesystems' , pass : 'Vem5t[I0*8dp' } ,
-        { indirizzo : 'https://10.34.224.78:215/api/storage/v1/filesystems' , pass : 'p$m1!Uku4efE'} , 
-        { indirizzo : 'https://10.34.224.80:215/api/storage/v1/filesystems' , pass : 'p$m1!Uku4efE'} ,
-        { indirizzo : 'https://10.22.43.22:215/api/storage/v1/filesystems' , pass : 'mQ4CP!oynX'} , 
-        { indirizzo : 'https://10.22.43.24:215/api/storage/v1/filesystems' , pass : 'mQ4CP!oynX'} 
+        { indirizzo : `https://10.22.250.82:${porta}${metodo}` , pass : 'Vem5t[I0*8dp' } , 
+        { indirizzo : `https://10.22.250.80:${porta}${metodo}` , pass : 'Vem5t[I0*8dp' } ,
+        { indirizzo : `https://10.34.224.78:${porta}${metodo}` , pass : 'p$m1!Uku4efE'} , 
+        { indirizzo : `https://10.34.224.80:${porta}${metodo}` , pass : 'p$m1!Uku4efE'} ,
+        { indirizzo : `https://10.22.43.22:${porta}${metodo}` , pass : 'mQ4CP!oynX'} , 
+        { indirizzo : `https://10.22.43.24:${porta}${metodo}` , pass : 'mQ4CP!oynX'} ,
+        { indirizzo : `https://10.25.73.40:${porta}${metodo}` , pass : '9Lb?53P0~8>3'} , 
+        { indirizzo : `https://10.25.73.42:${porta}${metodo}` , pass : '9Lb?53P0~8>3'} 
+       
     ]
         .map(  ( l ) => { 
             headers["X-Auth-Key"] = l.pass;
@@ -46,14 +70,35 @@ router.get( '/test' , ( req , res , next ) => {
         })
 
     res.writeHead( 200 , { 'Content-Type' : 'text/plain' })
-    res.write( 'inizio\n' )
+    
+    let aggiungiQuote = ( s ) => '"' + s + '"';
+
 
     axios.all( v ).then( axios.spread( ( ...response ) =>{
+        res.write( '"APPLIANCE","POOL","SHARE","PROJECT,"EXPORT","DATACENTER"\n' )
         response.forEach( el => {
-            el.data.filesystems.forEach( f => res.write( f.project + "," + f.name + ", " + ( f.space_data / Math.pow( 2 , 40 )).toFixed( 2 ) + "\n") )
+            let IP = el.config.url.split('/')[2].split(':')[0];
+
+            let appl  = appliance.filter( e => {
+                if( e.ip === IP )
+                    return [ e.nome , e.datacenter ]
+            })
+
+
+            el.data.filesystems.forEach( f => {
+
+                f.sharenfs.split( ':' ).forEach( s => {
+
+                    s.split( ',' ).forEach( t => {
+                        res.write( aggiungiQuote( appl[ 0 ].nome ) +  "," + aggiungiQuote( f.pool ) + "," + aggiungiQuote( f.name ) + "," + aggiungiQuote( f.project ) + "," + aggiungiQuote( t ) + "," + aggiungiQuote( appl[ 0 ].datacenter )+ "\n"   )
+                    })
+                })
+            })
+
+
         })
 
-        res.write( 'fatto' )
+
         res.end()
     }) ).catch( err => console.log( err ) )
 
