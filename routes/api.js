@@ -59,11 +59,11 @@ router.post( '/shares' , ( req , res , next ) => {
                     SHARE AS Share ,
                     POOL AS Pool ,
                     PROJECT AS Project ,
-                    NFS_EXPORT AS Export ,
+                    EXPORT AS Export ,
                     DATACENTER AS DC
                   FROM 
                     shares 
-                  WHERE ${campo} = '${ricerca}' AND DATACENTER = '${datacenter}'`
+                  WHERE ${campo} = '${ricerca}' AND DATACENTER LIKE '${datacenter}'`
 
     console.log( sql );
 
@@ -96,12 +96,16 @@ router.get( '/ricerca_zfs_shares' , ( req , res , next ) => {
     if( datacenter === 'ALL' ) {
         sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE ?`
     } else {
-        sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE ? AND DATACENTER = '${datacenter}'`
+        sql = `SELECT DISTINCT ${campo} FROM shares WHERE ${campo} LIKE ? AND DATACENTER LIKE '${datacenter}'`
     }
+
+
 
     option.push( '%' + term + '%');
     
     db.all( sql , option , ( err , rows ) => {
+
+        console.log( sql )
 
         var out = [];
 

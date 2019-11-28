@@ -5,6 +5,7 @@ var axios = require( 'axios' );
 var fs = require( 'fs' );
 var https = require( 'https' );
 var _ = require( 'lodash' )
+var v1 = [ ];
 
 let appliance;
 
@@ -46,14 +47,32 @@ router.get( '/test' , ( req , res , next ) => {
         }
     });
 
-    db.all( 'DELETE FROM shares' , [] , err => console.log( 'errore' ) )
+    //db.all( 'DELETE FROM shares' , [] , err => console.log( 'errore' ) )
 
     //db.all( 'INSERT INTO share (ZFS-APPLIANCE, POOL)' )
 
-    let porta = '215'
     let metodo = '/api/storage/v1/filesystems'
+  
 
-    let v = [ 
+    db.all( 'SELECT * FROM zfsappliance' , [] , ( err , rows ) => {
+
+        console.log( v1 )
+
+        for(let i = 0; i < rows.length; i++ ) {
+            
+            if( rows[ i ].addr2 !== '' ) {
+                v1.push({ indirizzo : rows[ i ].addr1 + metodo , pass : rows[ i ].pass } )
+                v1.push({ indirizzo : rows[ i ].addr2 + metodo , pass : rows[ i ].pass } )
+            } else {
+                v1.push({ indirizzo : rows[ i ].addr1 + metodo, pass : rows[ i ].pass } )
+            }
+        }
+   
+        chiudiDB( db )
+    });
+
+
+/*     let v = [ 
         { indirizzo : `https://10.22.250.82:${porta}${metodo}` , pass : 'Vem5t[I0*8dp' } , 
         { indirizzo : `https://10.22.250.80:${porta}${metodo}` , pass : 'Vem5t[I0*8dp' } ,
         { indirizzo : `https://10.34.224.78:${porta}${metodo}` , pass : 'p$m1!Uku4efE'} , 
@@ -63,19 +82,23 @@ router.get( '/test' , ( req , res , next ) => {
         { indirizzo : `https://10.25.73.40:${porta}${metodo}` , pass : '9Lb?53P0~8>3'} , 
         { indirizzo : `https://10.25.73.42:${porta}${metodo}` , pass : '9Lb?53P0~8>3'} 
        
-    ]
-        .map(  ( l ) => { 
-            headers["X-Auth-Key"] = l.pass;
-            return instance.get( l.indirizzo , { headers } ) 
-        })
+    ] */
+
+    let v = v1.map(  ( l ) => { 
+        headers["X-Auth-Key"] = l.pass;
+        return instance.get( l.indirizzo , { headers } ) 
+    })
+
+    console.log( v )
 
     res.writeHead( 200 , { 'Content-Type' : 'text/plain' })
     
     let aggiungiQuote = ( s ) => '"' + s + '"';
+    
+    
 
-
-    axios.all( v ).then( axios.spread( ( ...response ) =>{
-        res.write( '"APPLIANCE","POOL","SHARE","PROJECT,"EXPORT","DATACENTER"\n' )
+    axios.all( v ).then( axios.spread( ( ...response ) => {
+        res.write( '"APPLIANCE","POOL","SHARE","PROJECT","EXPORT","DATACENTER"\n' )
         response.forEach( el => {
             let IP = el.config.url.split('/')[2].split(':')[0];
 

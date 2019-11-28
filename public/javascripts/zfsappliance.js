@@ -111,7 +111,7 @@
             try {
                 $( '#host' ).autocomplete( 'destroy' );
             } catch ( err ) {
-                console.log( 'err' );
+                console.log( err );
             }
 
             $( '#host' ).autocomplete({
