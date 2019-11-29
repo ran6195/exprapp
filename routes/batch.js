@@ -113,7 +113,10 @@ router.get( '/test' , ( req , res , next ) => {
                 f.sharenfs.split( ':' ).forEach( s => {
 
                     s.split( ',' ).forEach( t => {
-                        res.write( aggiungiQuote( appl[ 0 ].nome ) +  "," + aggiungiQuote( f.pool ) + "," + aggiungiQuote( f.name ) + "," + aggiungiQuote( f.project ) + "," + aggiungiQuote( t ) + "," + aggiungiQuote( appl[ 0 ].datacenter )+ "\n"   )
+                        if( t !== 'sec=sys' ) {
+                            res.write( aggiungiQuote( appl[ 0 ].nome ) +  "," + aggiungiQuote( f.pool ) + "," + aggiungiQuote( f.name ) + "," + aggiungiQuote( f.project ) + "," + aggiungiQuote( t.replace( 'rw=' , '' ) ) + "," + aggiungiQuote( appl[ 0 ].datacenter )+ "\n"   )
+                        }
+                        
                     })
                 })
             })
