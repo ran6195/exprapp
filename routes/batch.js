@@ -4,8 +4,10 @@ var sqlite = require( 'sqlite3' );
 var axios = require( 'axios' );
 var fs = require( 'fs' );
 var https = require( 'https' );
+var moment = require( 'moment' );
 var _ = require( 'lodash' )
 var v1 = [ ];
+
 
 let appliance;
 
@@ -24,9 +26,7 @@ let chiudiDB = ( db ) => {
     console.log( 'Database chiuso' ) 
 }
 
-router.get( '/test' , ( req , res , next ) => {
-
-    const instance = axios.create({
+router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
         httpsAgent: new https.Agent({  
           rejectUnauthorized: false
         })
@@ -129,5 +129,43 @@ router.get( '/test' , ( req , res , next ) => {
     }) ).catch( err => console.log( err ) )
 
 });
+
+
+router.get( '/rep' , ( req , res ,next ) =>{
+
+    let reperibili = [
+        { firsName : 'Capitani' , lastName : 'Antonio' , roulo : 'interno' , posizione : 0} ,
+        { firsName : 'Contaldi' , lastName : 'Domenico' , roulo : 'interno' , posizione : 1} ,
+        { firsName : 'Cusani' , lasNname : 'Aurelio' , roulo : 'interno' , posizione : 2} ,
+        { firsName : 'Cocchi' , lastName : 'Stefano' , roulo : 'interno' , posizione : 3} ,
+        { firsName : 'Giampetruzzi' , lastName : 'Antonio' , roulo : 'interno' , posizione : 4} ,
+        { firsName : 'Pastore' , lastName : 'Matteo' , roulo : 'esterno' , posizione : 5} ,
+        { firsName : 'Zuin' , lastName : 'Giorgio' , roulo : 'interno' , posizione : 6} ,
+        { firsName : 'Rambaldo' , lastName : 'Michele' , roulo : 'interno' , posizione : 7} ,
+        { firsName : 'Carlini' , lastName : 'Gianluca' , roulo : 'interno' , posizione : 8} ,
+        { firsName : 'Pellegrin' , lastName : 'Gianpaolo' , roulo : 'interno' , posizione : 9} ,
+        { firsName : 'Galtarossa' , lastName : 'Stefano' , roulo : 'esterno' , posizione : 10} ,
+
+    ];
+
+
+    let routa = [
+    //  [  L ,  M ,  M ,  G ,  V ,  S ,  D ]
+        [  0 ,  1 ,  2 ,  3 ,  4 ,  4 ,  5 ] , //  0
+        [  6 ,  7 ,  8 ,  9 , 10 , 10 ,  0 ] , //  1
+        [  1 ,  2 ,  3 ,  4 ,  5 ,  5 ,  6 ] , //  2
+        [  7 ,  8 ,  9 , 10 ,  0 ,  0 ,  1 ] , //  3
+        [  2 ,  3 ,  4 ,  5 ,  6 ,  6 ,  7 ] , //  4
+        [  8 ,  9 , 10 ,  0 ,  1 ,  1 ,  2 ] , //  5
+        [  3 ,  4 ,  5 ,  6 ,  7 ,  7 ,  8 ] , //  6
+        [  9 , 10 ,  0 ,  1 ,  2 ,  2 ,  3 ] , //  7
+        [  4 ,  5 ,  6 ,  7 ,  8 ,  8 ,  9 ] , //  8
+        [ 10 ,  0 ,  1 ,  2 ,  3 ,  3 ,  4 ] , //  9
+        [  5 ,  6 ,  7 ,  8 ,  9 ,  9 , 10 ] , // 10
+    ];
+
+});
+
+
 module.exports = router
 
