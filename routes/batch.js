@@ -133,18 +133,20 @@ router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
 
 router.get( '/rep' , ( req , res ,next ) =>{
 
+    let dataZero = moment.now();
+
     let reperibili = [
-        { firsName : 'Capitani' , lastName : 'Antonio' , roulo : 'interno' , posizione : 0} ,
-        { firsName : 'Contaldi' , lastName : 'Domenico' , roulo : 'interno' , posizione : 1} ,
-        { firsName : 'Cusani' , lasNname : 'Aurelio' , roulo : 'interno' , posizione : 2} ,
-        { firsName : 'Cocchi' , lastName : 'Stefano' , roulo : 'interno' , posizione : 3} ,
-        { firsName : 'Giampetruzzi' , lastName : 'Antonio' , roulo : 'interno' , posizione : 4} ,
-        { firsName : 'Pastore' , lastName : 'Matteo' , roulo : 'esterno' , posizione : 5} ,
-        { firsName : 'Zuin' , lastName : 'Giorgio' , roulo : 'interno' , posizione : 6} ,
-        { firsName : 'Rambaldo' , lastName : 'Michele' , roulo : 'interno' , posizione : 7} ,
-        { firsName : 'Carlini' , lastName : 'Gianluca' , roulo : 'interno' , posizione : 8} ,
-        { firsName : 'Pellegrin' , lastName : 'Gianpaolo' , roulo : 'interno' , posizione : 9} ,
-        { firsName : 'Galtarossa' , lastName : 'Stefano' , roulo : 'esterno' , posizione : 10} ,
+        { firstName : 'Capitani' , lastName : 'Antonio' , roulo : 'interno' , posizione : 0} ,
+        { firstName : 'Contaldi' , lastName : 'Domenico' , roulo : 'interno' , posizione : 1} ,
+        { firstName : 'Cusani' , lasNname : 'Aurelio' , roulo : 'interno' , posizione : 2} ,
+        { firstName : 'Cocchi' , lastName : 'Stefano' , roulo : 'interno' , posizione : 3} ,
+        { firstName : 'Giampetruzzi' , lastName : 'Antonio' , roulo : 'interno' , posizione : 4} ,
+        { firstName : 'Pastore' , lastName : 'Matteo' , roulo : 'esterno' , posizione : 5} ,
+        { firstName : 'Zuin' , lastName : 'Giorgio' , roulo : 'interno' , posizione : 6} ,
+        { firstName : 'Rambaldo' , lastName : 'Michele' , roulo : 'interno' , posizione : 7} ,
+        { firstName : 'Carlini' , lastName : 'Gianluca' , roulo : 'interno' , posizione : 8} ,
+        { firstName : 'Pellegrin' , lastName : 'Gianpaolo' , roulo : 'interno' , posizione : 9} ,
+        { firstName : 'Galtarossa' , lastName : 'Stefano' , roulo : 'esterno' , posizione : 10} ,
 
     ];
 
