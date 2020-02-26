@@ -1,26 +1,19 @@
 var express = require( 'express' );
 var router  = express.Router();
-const sqlite3 = require( 'sqlite3' ).verbose();
-
-
-var apriDB = () => {
-    return new sqlite3.Database( './storagetools.db' , [] , err => {
-        if( err ) {
-            console.log( err );
-        } else {
-            console.log( 'DB Apert' );
-        }
-    });
-};
-
-var chiudiDB = ( db ) => db.close(); 
-
+//const sqlite3 = require( 'sqlite3' ).verbose();
+const mysql = require('mysql');
+const connessione = {
+    host : "10.38.108.133" ,
+    user : "storage_user" ,
+    password : "Pippo321!" ,
+    database : "infostorage"
+  };
 
 /** Get All ZFS */
 
 router.get( '/zfs' , ( req , res , next )=> {
 
-    let db = apriDB()
+/*     let db = apriDB()
 
     let sql = 'SELECT * FROM zfsappliance WHERE id = ?';
     let option = [ req.query.id ];
@@ -29,7 +22,20 @@ router.get( '/zfs' , ( req , res , next )=> {
         res.json( rows )
     });
     
-    db.close();
+    db.close(); */
+
+
+    let con = mysql.createConnection( connessione );
+    let id = req.query.id;
+
+    con.connect( err => {
+        if( err ) throw err;
+        console.log( 'Connected' );
+        con.query( 'SELECT * FROM zfs_appliance WHERE id = ' + id  , ( err , rows ) => {
+            if( err ) throw err;
+            res.json( rows );
+        });
+    });
 
 })
 

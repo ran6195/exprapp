@@ -1,6 +1,6 @@
 var express = require( 'express');
 var router = express.Router();
-var sqlite = require( 'sqlite3' );
+//var sqlite = require( 'sqlite3' );
 var axios = require( 'axios' );
 var fs = require( 'fs' );
 var https = require( 'https' );

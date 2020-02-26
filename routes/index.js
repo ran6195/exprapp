@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const axios = require( 'axios' ).default;
-const sqlite3 = require( 'sqlite3' ).verbose(); 
+//const sqlite3 = require( 'sqlite3' ).verbose(); 
+const mysql = require('mysql');
 const https = require( 'https' )
-var dati = {};
+const connessione = {
+  host : "10.38.108.133" ,
+  user : "storage_user" ,
+  password : "Pippo321!" ,
+  database : "infostorage"
+};
 
 
 /* GET home page. */
@@ -22,51 +28,39 @@ router.get( '/reperibili' , (req, res, next) => {
 /** pagina zfs */
 
 router.get( '/zfsappliance' , (req, res, next) => {
-
-  let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY ,  err => {
-    if( err ) {
-      console.log( 'Errore: ' + err )
-    } else {
-      console.log( 'Database aperto' )
-    }
-  });
-
-
-  db.all( 'SELECT * FROM zfsappliance ORDER BY dc' , [] , ( err , rows ) => {
-    res.render( 'zfsappliance' , {
-      title : 'ZFS Appliance' , 
-      menuItem : 'zfsappliance' ,
-      rows ,
-      scripts : [
-        'jquery-ui.min' ,
-        'zfsappliance'
-      ]
+  var con = mysql.createConnection( connessione );
+  con.connect(err =>{
+    if( err ) throw err;
+    console.log( 'Connected' );
+    con.query( 'SELECT * FROM zfs_appliance' , ( err , rows ) => {
+      if( err ) throw err;
+      res.render( 'zfsappliance' , {
+        title : 'ZFS Appliance' , 
+        menuItem : 'zfsappliance' ,
+        rows ,
+        scripts : [
+          'jquery-ui.min' ,
+          'zfsappliance'
+        ]
+      });
     });
-  })
-  
+  });
 });
+
+
+
 
 router.get( '/shares' , ( err , res , next ) => {
 
-  let db = new sqlite3.Database( './storagetools.db' , sqlite3.OPEN_READONLY , err => {
-    if( err ) {
-      console.log( err )
-    } else {
-      console.log('database aperto');
-    }
-
-    db.all( 'SELECT DISTINCT dc FROM zfsappliance ORDER BY dc' , [] , ( err , datacenter ) =>{
-      if( err ) {
-        console.log( err ) 
-      } else {
-        res.render( 'shares' , {
-          datacenter
-        })
-      }
+  var con = mysql.createConnection( connessione );
+  con.connect( err => {
+    if( err ) throw err;
+    console.log( 'COnnected' );
+    con.query( 'SELECT DISTINCT dc FROM zfs_appliance ORDER BY dc' , ( err , datacenter ) => {
+      if( err ) throw err;
+      res.render( 'shares' , { datacenter } );
     });
-
-  } )
-
+  });
 });
 
 
