@@ -1,0 +1,24 @@
+progetto,ip,nome,datacenter
+"CRM Business",10.22.250.80,BO1ZFSCRM-M203H,Bologna
+"CRM Business",10.22.250.82,BO1ZFSCRM-M203J,Bologna
+"DBAAS Produzione Bologna",10.22.43.22,BO1ZFSDBAAS-M203Y,Bologna
+"DBAAS Produzione Bologna",10.22.43.24,BO1ZFSDBAAS-M203G,Bologna
+"DBSS Produzione Bologna",10.25.73.40,BO1ZFSDBSS-M2043,Bologna
+"DBSS Produzione Bologna",10.25.73.42,BO1ZFSDBSS-M2044,Bologna
+"Dinamic Inventory",10.34.224.78,BO1ZFSDIN-M201X,Bologna
+"Dinamic Inventory",10.34.224.80,BO1ZFSDIN-M201Y,Bologna
+Equivalence,10.53.65.202,BO1ZFSEQ-M200H,Bologna
+Equivalence,10.53.65.204,BO1ZFSEQ-M200G,Bologna
+"NGDC Cesano",10.37.118.214,zfs-exacsb-1,Cesano
+"NGDC Cesano",10.37.118.215,zfs-exacsb-2,Cesano
+"DBSS Collaudo",10.25.55.188,ZFS-dbss-col-na01,Napoli
+"DBSS Collaudo",10.25.55.190,ZFS-dbss-col-na02,Napoli
+"DBAAS DR",10.50.40.188,PD1ZFSPPCOL-B00D,Padova
+"DBAAS DR",10.50.40.190,PD1ZFSPPCOL-B018,Padova
+"DBAAS Produzione Padova",10.41.155.216,PD1ZFSDBAAS-M203C,Padova
+"DBAAS Produzione Padova",10.41.155.218,PD1ZFSDBAAS-M203D,Padova
+FMS,10.41.155.60,PD1ZFSFMSP-MJ02C,Padova
+"TRCS Esercizio",10.56.211.152,PD1ZFSRCS-M201D,Padova
+"TRCS Esercizio",10.56.211.153,PD1ZFSRCS-M201E,Padova
+"DBAAS Produzione Oriolo",10.38.212.20,zfs-p3xd1-ctrl1,Oriolo
+"DBAAS Produzione Oriolo",10.38.212.21,zfs-p3xd1-ctrl2,Oriolo

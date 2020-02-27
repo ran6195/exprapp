@@ -6,27 +6,102 @@ var fs = require( 'fs' );
 var https = require( 'https' );
 var moment = require( 'moment' );
 var _ = require( 'lodash' )
+var mysql = require( 'mysql' );
+const connessione = {
+    host : "10.38.108.133" ,
+    user : "storage_user" ,
+    password : "Pippo321!" ,
+    database : "infostorage"
+  };
+
+
 var v1 = [ ];
 
 
 let appliance;
 
-let aspriDB = () => {
-    return new  sqlite.Database( './storagetools.db' , [] , err => {
-        if( err ) {
-            console.log( err )
-        } else {
-            console.log( 'DB aperto' )
-        }
+router.get( '/test1' , ( req , res , next ) => {
+
+
+    const instance = axios.create({
+        httpsAgent: new https.Agent({  
+          rejectUnauthorized: false
+        })
     });
-}
+    
+    var headers = {
+        "X-Auth-User" : 'root' ,
+        "X-Auth-Key" : ""
+    };
 
-let chiudiDB = ( db ) => { 
-    db.close();
-    console.log( 'Database chiuso' ) 
-}
+    let metodo = '/api/storage/v1/filesystems';
+    let con = mysql.createConnection( connessione );
 
-router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
+    con.connect( err => {
+        if( err ) throw err;
+
+        con.query( 'SELECT * FROM zfs_appliance_hostname' , ( err , rows ) => {
+
+            if( err ) throw err;
+
+            appliance = rows;
+
+
+            con.query( 'SELECT * FROM zfs_appliance' , ( err , rows ) => {
+
+                if( err ) throw err;
+    
+                for( let i = 0; i < rows.length; i++ ) {
+                    //console.log( v1 );
+                    v1.push( { indirizzo : rows[ i ].addr1 + metodo , pass : rows[ i ].pass } );
+                    if( rows[ i ].addr2 !== '' ) {
+                        v1.push( { indirizzo : rows[ i ].addr2 + metodo , pass : rows[ i ].pass } );
+                    }
+                }
+    
+                let v = v1.map(  ( l ) => { 
+                    headers["X-Auth-Key"] = l.pass;
+                    return instance.get( l.indirizzo , { headers } ) 
+                });
+    
+                let aggiungiQuote = ( s ) => '"' + s + '"';
+                res.writeHead( 200 , { 'Content-Type' : 'text/plain' } );
+                axios.all( v )
+                    .then( axios.spread( ( ...response ) =>{
+                        res.write( '"APPLIANCE","POOL","SHARE","PROJECT","EXPORT","DATACENTER"\n' );
+                        response.forEach( r => {
+                            let IP   = r.config.url.split('/')[2].split(':')[0];
+                            let appl = appliance.filter( a => {
+                                if( a.ip === IP )
+                                    return [ a.nome , a.datacenter ];
+                            });
+                            
+                            r.data.filesystems.forEach( f => {
+                                f.sharenfs.split( ':' ).forEach( s => {
+                                    s.split( ',' ).forEach( t => {
+                                        res.write( aggiungiQuote( appl[ 0 ].nome ) +  "," + aggiungiQuote( f.pool ) + "," + aggiungiQuote( f.name ) + "," + aggiungiQuote( f.project ) + "," + aggiungiQuote( t.replace( 'rw=' , '' ) ) + "," + aggiungiQuote( appl[ 0 ].datacenter ) + "\n"   );
+                                    });
+                                });
+                            });
+                        });
+
+                        res.end();
+                    }))
+                    .catch( err => console.log( err ) );
+                
+                
+            });
+
+        });
+
+    });
+
+});
+
+
+router.get( '/test' , ( req , res , next ) => { 
+    
+    const instance = axios.create({
         httpsAgent: new https.Agent({  
           rejectUnauthorized: false
         })
@@ -37,15 +112,7 @@ router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
         "X-Auth-Key" : ""
     }; 
 
-    let db = aspriDB();
 
-    db.all( 'SELECT * FROM appliance_hostname' , [] , ( err , rows ) => {
-        if( err ) {
-            console.log( err )
-        } else {
-            appliance = rows;
-        }
-    });
 
     //db.all( 'DELETE FROM shares' , [] , err => console.log( 'errore' ) )
 
@@ -54,7 +121,7 @@ router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
     let metodo = '/api/storage/v1/filesystems'
   
 
-    db.all( 'SELECT * FROM zfsappliance' , [] , ( err , rows ) => {
+  /*   db.all( 'SELECT * FROM zfsappliance' , [] , ( err , rows ) => {
 
         console.log( v1 )
 
@@ -69,7 +136,7 @@ router.get( '/test' , ( req , res , next ) => { const instance = axios.create({
         }
    
         chiudiDB( db )
-    });
+    }); */
 
 
 /*     let v = [ 
